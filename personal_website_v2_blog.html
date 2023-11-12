@@ -133,7 +133,32 @@
         <p>#level = (0.0024,0.0048,0.0072)</p>
         <p>#ax.contour(pvdiagram.data, levels=level, colors=['white'])</p>
 
-
+        <h3>baygaud-PI installation</h3>
+        <p>updated 12 Nov 2023</p>
+        <p># create environment</p>
+        <p>conda create -n baygaud</p>
+        <br>
+        <p># activate environment </p>
+        <p>source activate baygaud</p>
+        <br>
+        <p># install python</p>
+        <p>conda install python=3.10</p>
+        <br>
+        <p># download from GitHub</p>
+        <p>git clone https://github.com/seheon-oh/baygaud-PI.git</p>
+        <br>
+        <p># go to the downloaded file</p>
+        <p>cd baygaud-PI</p>
+        <br>
+        <p># installation</p>
+        <p>pip install .</p>
+        <br>
+        <p># using (in the environment)</p>
+        <p>python3.10 baygaud.py _baygaud_params.xxxx.yaml</p>
+        <br>
+        <p>#sth should notice</p>
+        <p>#the VELOCITY UNIT of the input data cube MUST be in m/s</p>
+        <p>#s/r should be adjusted based on the quantity of the data</p>
 
 
         <br>
