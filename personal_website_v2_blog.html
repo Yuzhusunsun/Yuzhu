@@ -174,6 +174,51 @@
         <p>the region to gaussian fitting should be identified in 'naxis', cause it will affect the time the code took</p>
         <p>the VELOCITY UNIT of the input data cube MUST be in m/s.</p>
         <p>s/r should be adjusted based on the quantity of the data, sometimes the default value is too large.</p>
+        <h3>Overlay HI contour (Ha contour) on the Optical image</h3>
+        <p>----------------------------------------------------------</p>
+        <p>1. Optical cutout making</p>
+        <p>----------------------------------------------------------</p>
+        <p>Cut out using astrocut</p>
+        <p>from astropy.coordinates import SkyCoord</p>
+        <p>from astrocut import fits_cut</p>
+        <p>import aplpy</p>
+        <br>
+        <p>input_files = ['/data/yzsun/NGVS/NGVS+4-2.l.g.Mg004.fits']</p>
+        <p>center_coord = SkyCoord('191.6804 10.37', unit='deg')</p>
+        <p>cutout_size = [1000,1000]</p>
+        <p>cutout_file = fits_cut(input_files, center_coord, cutout_size)</p>
+        <p>print(cutout_file)</p>
+        <p>----------------------------------------------------------</p>
+        <p>Another method to make the cutout</p>
+        <p>BUT IT CAN NOT USE HERE</p>
+        <p>NGVS42g = fits.open('/data/yzsun/NGVS/NGVS+4-2.l.g.Mg004.fits')</p>
+        <p>ngvs42g = NGVS42g[0].data</p>
+        <p>ngvs_wcs = WCS(NGVS42g[0].header)</p>
+        <p>position = SkyCoord(191.6804*u.deg, 10.37*u.deg,frame="icrs")</p>
+        <p>cutout = Cutout2D(ngvs42g, position, (1000, 1000), ngvs_wcs)</p>
+        <br>
+        <p>norm = ImageNormalize(stretch=LogStretch(a=2000), vmin=0, vmax=1000)</p>
+        <p>plt.figure(figsize=(15, 15))</p>
+        <p>plt.imshow(cutout.data, origin='lower', cmap='Greys_r',norm=norm) </p>
+        <p>path_AGC226178_g = 'AGC226178_g.fits'</p>
+        <p>fits.writeto(path_AGC226178_g, cutout.data, overwrite=True)</p>
+        <p>----------------------------------------------------------</p>
+        <p>2. Overlay contour on the optical image</p>
+        <p># read the optical image</p>
+        <p>gc = aplpy.FITSFigure('./cutout_191.676600_10.366100_500-x-500_astrocut.fits')</p>
+        <p>gc.show_grayscale(invert=True)</p>
+        <p># show Ha contour</p>
+        <p>gc.show_contour('/data/yzsun/Ha/AGC226178_Ha_NET_flux.fits.gz',levels=(3*0.75,5*0.75), colors='red')</p>
+        <p>#show HI contour</p>
+        <p>gc.show_contour('/data/yzsun/13A-028/combining/final_cubes/make_moment/1016_226178_mom_nat_4_mom0.fits',levels = (50*7.4e-4,60*7.4e-4,70*7.4e-4,80*7.4e-4,85*7.4e-4,87*7.4e-4), colors='blue')</p>
+        <p>gc.show_contour('/data/yzsun/13A-028/combining/final_cubes/make_moment/1016_226178_mom_nat_4_mom0.fits',levels = (3*7.4e-4,100), colors='white')</p>    
+        <p>#add scale bar</p>
+        <p>gc.add_scalebar(length=10*u.arcsecond)</p>
+        <p>gc.scalebar.set_label('10 arcsec')</p>
+        <p>gc.scalebar.set_color('white')</p>
+        <p>plt.title('AGC226178 u-band')</p>
+        
+        
 
 
         <br>
